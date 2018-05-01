@@ -1,0 +1,60 @@
+syntax = "proto3";
+package grpc;
+
+import "google/api/annotations.proto";
+
+service ArticleService {
+  rpc Create(Article) returns (Article) {
+    option (google.api.http) = {
+      post: "/article",
+      body: "*"
+    };
+  }
+
+  rpc Find(Article) returns (Articles) {
+    option (google.api.http) = {
+      get: "/article"
+    };
+  }
+
+  rpc FindById(ArticleId) returns (Article) {
+    option (google.api.http) = {
+      get: "/article/{id}"
+    };
+  }
+
+  rpc Update(ArticleId) returns (Article) {
+    option (google.api.http) = {
+      patch: "/article/{id}",
+      body: "*"
+    };
+  }
+
+  rpc DeleteById(ArticleId) returns (Article) {
+    option (google.api.http) = {
+      delete: "/article/{id}"
+    };
+  }
+}
+
+message Article {
+  int32 id = 1;
+  string title = 2;
+  string subtitle = 3;
+  string content = 4;
+  int32 statusId = 5;
+  int32 profileId = 6;
+}
+
+message ArticleId {
+  int32 id = 1;
+}
+
+message Articles {
+  int32 offset = 1;
+  int32 limit = 2;
+  int32 page = 3;
+  int32 count = 4;
+  repeated Article data = 5;
+}
+
